@@ -52,7 +52,7 @@ void calc_energy(struct rgb_img *im, struct rgb_img **grad) {
     int height = im->height;
     
     // Allocate memory for the energy image 
-    create_img(grad, height, width); // MISSING PARAMETER 
+    create_img(grad, height, width); 
     
     for (int y = 0; y < height; y++) { // for y
         for (int x = 0; x < width; x++) { // for x
@@ -241,7 +241,7 @@ void remove_seam(struct rgb_img *src, struct rgb_img **dest, int *path) {
     int width = src->width;
 
     // Create the destination image with one less column.
-    create_img(dest, height, width - 1);
+    create_img(dest, height, (width - 1));
 
     // Process each row.
     for (int i = 0; i < height; i++) { // each row
