@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "c_img.h"
 #include "seamcarving.h"
 
 /*
@@ -20,13 +21,13 @@ static int compute_gradient_component(const struct rgb_img *im, int y, int x, in
         //condition ? value_if_true : value_if_false;
         int left = (x == 0) ? width - 1 : x - 1; // if x is at left edge, left is width-1, wraps around; else subtract from x
         int right = (x == width - 1) ? 0 : x + 1; // x is at the right edge, wrap to beginning 0. else, add 1 to x right side
-        delta = get_pixel(im, y, right, color) - get_pixel(im, y, left, color); // get pixel info using left and right as x replacements
+        delta = get_pixel((struct rgb_img *)im, y, right, color) - get_pixel((struct rgb_img *)im, y, left, color); // get pixel info using left and right as x replacements
 
     } else if (axis == 'y') {
         // Determine top and bottom neighbors with wrap-around, same algorithm as above
         int top = (y == 0) ? height - 1 : y - 1;
         int bottom = (y == height - 1) ? 0 : y + 1;
-        delta = get_pixel(im, bottom, x, color) - get_pixel(im, top, x, color);
+        delta = get_pixel((struct rgb_img *)im, bottom, x, color) - get_pixel((struct rgb_img *)im, top, x, color);
     }
     
     // return the uint8_t colour int difference
@@ -51,7 +52,7 @@ void calc_energy(struct rgb_img *im, struct rgb_img **grad) {
     int height = im->height;
     
     // Allocate memory for the energy image 
-    create_img(rgb_img *grad, height, width); // MISSING PARAMETER 
+    create_img(grad, height, width); // MISSING PARAMETER 
     
     for (int y = 0; y < height; y++) { // for y
         for (int x = 0; x < width; x++) { // for x
@@ -240,7 +241,7 @@ void remove_seam(struct rgb_img *src, struct rgb_img **dest, int *path) {
     int width = src->width;
 
     // Create the destination image with one less column.
-    create_img(rgb_img *dest, height, width - 1);
+    create_img(dest, height, width - 1);
 
     // Process each row.
     for (int i = 0; i < height; i++) { // each row
