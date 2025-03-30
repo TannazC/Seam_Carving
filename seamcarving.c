@@ -51,7 +51,7 @@ void calc_energy(struct rgb_img *im, struct rgb_img **grad) {
     int height = im->height;
     
     // Allocate memory for the energy image 
-    *grad = create_img(height, width); 
+    create_img(rgb_img *grad, height, width); // MISSING PARAMETER 
     
     for (int y = 0; y < height; y++) { // for y
         for (int x = 0; x < width; x++) { // for x
@@ -147,7 +147,7 @@ void dynamic_seam(struct rgb_img *grad, double **best_arr)
         (*best_arr)[j] = get_pixel(grad, 0, j, 0);  // Use any RGB because all the same value
     }
 
-    // 2. Fill in the remaining rows.
+    // Fill in the remaining rows.
     for (int i = 1; i < height; i++) { // go in per column per row
         for (int j = 0; j < width; j++) {
             double pixel_grad = get_pixel(grad, i, j, 0); // get value of position of interest
@@ -214,7 +214,7 @@ void recover_path(double *best, int height, int width, int **path) {
         if (cost < min_cost) { // reset set min each time
             min_cost = cost;
             min_index = j; // index of column 
-        }
+             }
     }
    
     (*path)[height - 1] = min_index; // set first value of path to the starting position minimum
@@ -229,8 +229,6 @@ void recover_path(double *best, int height, int width, int **path) {
 }
 
 
-
-
 /*Part 4: Write a function that removes the seam from the best path
 void remove_seam(struct rgb_img *src, struct rgb_img **dest, int *path);
 
@@ -240,10 +238,9 @@ The function creates the destination image, and writes to it the source image, w
 void remove_seam(struct rgb_img *src, struct rgb_img **dest, int *path) {
     int height = src->height; // get info from struct
     int width = src->width;
-    int new_width = width - 1; // get one less column as width
 
     // Create the destination image with one less column.
-    *dest = create_img(height, new_width);
+    create_img(rgb_img *dest, height, width - 1);
 
     // Process each row.
     for (int i = 0; i < height; i++) { // each row
